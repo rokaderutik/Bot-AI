@@ -1,9 +1,9 @@
-
+import styles from "./ChatSection.module.css";
 
 const ChatSection = () => {
 
     return (
-        <div>
+        <div className={styles.chat_section_wrapper}>
             ChatSection
         </div>
     );
