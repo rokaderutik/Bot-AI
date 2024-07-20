@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createTheme, ThemeProvider } from "@mui/material";
-import { Padding } from '@mui/icons-material';
 
 //Theme object created using createTheme to override the CSS styles of MUI library
 export const theme = createTheme({
@@ -17,25 +16,87 @@ export const theme = createTheme({
       secondary: "#D7C7F421",
     },
   },
-  MuiTypography: {
-    styleOverrides: {
-      h1: {
-        color: "#000000",
-        fontSize: "56px",
-        fontWeight: "700",
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "5px",
+          textTransform: "none",
+          fontSize: "20px",
+          fontWeight: "400",
+          color: "#000",
+          backgroundColor: "#D7C7F4",
+          height: "42px"
+        },
+        contained: {
+          color: "#000",
+        },
       },
-      h2: {
-        color: "#1B3C74",
-        fontWeight: "600",
-        fontSize: "48px",
-        lineHeight: 1.2,
+    },
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          margin: "auto"
+        },
       },
-      h4: {
-        color: "#000000",
-        fontSize: "20px",
-        fontWeight: "400",
-        lineHeight: "23px"
+    },
+    MuiTypography: {
+      styleOverrides: {
+        h1: {
+          color: "#000000",
+          fontSize: "56px",
+          fontWeight: "700",
+        },
+        h2: {
+          color: "#1B3C74",
+          fontWeight: "600",
+          fontSize: "48px",
+          lineHeight: 1.2,
+        },
+        h3: {
+          color: "#102851",
+          fontSize: "30px",
+          fontWeight: "500",
+        },
       },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          background: "#FAFBFE",
+          borderRadius: "8px",
+          color: "#ABB6C7",
+          "& .MuiOutlinedInput-notchedOutline, &:hover .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+            {
+              borderColor: "#F0F0F0",
+            },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          background: "#fff",
+          borderRadius: "5px",
+          color: "#000",
+          "& .MuiOutlinedInput-notchedOutline, &:hover .MuiOutlinedInput-notchedOutline, & .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+            {
+              borderColor: "#00000073",
+            },
+          "& .MuiOutlinedInput-root": {
+            height: "42px"
+          }
+        },
+      },
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
     },
   },
 });
