@@ -36,7 +36,8 @@ export const theme = createTheme({
     MuiContainer: {
       styleOverrides: {
         root: {
-          margin: "auto"
+          margin: "auto",
+          boxSizing: "border-box"
         },
       },
     },
@@ -58,6 +59,16 @@ export const theme = createTheme({
           fontSize: "30px",
           fontWeight: "500",
         },
+        h4: {
+          color: "#000",
+          fontSize: "16px",
+          fontWeight: "700"
+        },
+        h5: {
+          color: "#0000009E",
+          fontSize: "12px",
+          fontWeight: "400"
+        }
       },
     },
     MuiSelect: {
@@ -89,6 +100,13 @@ export const theme = createTheme({
         },
       },
     },
+    MuiBox: {
+      styleOverrides: {
+        root: {
+          boxSizing: "border-box"
+        }
+      }
+    }
   },
   breakpoints: {
     values: {

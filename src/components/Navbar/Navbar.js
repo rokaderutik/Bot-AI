@@ -16,7 +16,7 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
-        <div className={!menuOpen && styles.hamburger}>
+        <div className={`${!menuOpen ? styles.menu_full : styles.hamburger}`}>
             {isMobile && (
                 <IconButton sx={{paddingX: 0}} onClick={() => setMenuOpen(true)}>
                     <MenuIcon 

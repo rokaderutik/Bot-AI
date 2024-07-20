@@ -12,6 +12,10 @@
   overflow: hidden;
 }
 
+.menu_full {
+  padding-top: 0px;
+}
+
 .hamburger {
   /* height: fit-content;
   width: fit-content;
@@ -20,6 +24,7 @@
   left: 0; */
   /* height: 100vh; */
   padding-top: 8px;
+  box-sizing: border-box;
   /* background: var(--gradient-secondary); */
 }
 

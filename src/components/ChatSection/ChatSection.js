@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import styles from "./ChatSection.module.css";
 import logo from "../../assets/logo_bot_ai.png";
+import CurrentConversation from "../CurrentConversation/CurrentConversation";
 
 /**
  * DefaultQuestion component: card showing default sample questions.
@@ -45,6 +46,7 @@ const DefaultQuestion = ({question}) => {
     );
 };
 
+
 /**
  * ChatSection component
  * @returns 
@@ -64,7 +66,7 @@ const ChatSection = () => {
             >
                 Bot AI
             </Typography>
-            {
+            {/* {
                 <Container 
                     sx={{
                         display: "flex",
@@ -108,7 +110,9 @@ const ChatSection = () => {
                         )}
                     </Grid>
                 </Container>
-            }
+            } */}
+
+<CurrentConversation />
 
             <Stack direction="row" mx={2} mt={4} mb={2} gap={2}>
                 <TextField 
@@ -118,6 +122,7 @@ const ChatSection = () => {
                 <Button>Save</Button>
             </Stack>
 
+            
         </div>
     );
 };
