@@ -16,7 +16,8 @@ import { useState } from "react";
  * @returns 
  */
 const ChatCard = ({ isAI, msg }) => {
-    const [isOpen, setIsOpen] = useState(false);
+    // for feedback modal
+    const [open, setOpen] = useState(false);
 
     return (
         <Stack
@@ -50,13 +51,16 @@ const ChatCard = ({ isAI, msg }) => {
                     <Box 
                         src={like_icon} 
                         component="img" 
+                        sx={{cursor: "pointer"}}
                         // onClick={() => {}}
                     />
                     <Box 
                         src={dislike_icon} 
                         component="img" 
+                        sx={{cursor: "pointer"}}
+                        onClick={() => setOpen(true)}
                     />
-                    <FeedBackModal />
+                    <FeedBackModal open={open} setOpen={setOpen} />
                 </Stack>
             </Stack>
         </Stack>

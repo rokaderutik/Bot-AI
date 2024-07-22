@@ -55,9 +55,9 @@ export const theme = createTheme({
           lineHeight: 1.2,
         },
         h3: {
-          color: "#102851",
-          fontSize: "30px",
-          fontWeight: "500",
+          color: "#000",
+          fontSize: "22px",
+          fontWeight: "400",
         },
         h4: {
           color: "#000",
@@ -106,7 +106,17 @@ export const theme = createTheme({
           boxSizing: "border-box"
         }
       }
-    }
+    },
+    MuiModal: {
+      styleOverrides: {
+        root: {
+          "& .MuiBackdrop-root":
+          {
+            backgroundColor: "#D7C7F440"
+          }
+        }
+      }
+    },
   },
   breakpoints: {
     values: {
