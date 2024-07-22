@@ -9,11 +9,21 @@ import { useState } from "react";
 
 /**
  * Navbar component: New chat and past conversations
+ * 
+ * @param {Function} setIsStartedChat
+ * function to set state value for new chat is started (used here from pen_icon button)
  * @returns 
  */
-const Navbar = () => {
+const Navbar = ({ isStartedChat, setIsStartedChat }) => {
     const isMobile = useMediaQuery("(max-width: 900px)");
     const [menuOpen, setMenuOpen] = useState(false);
+
+    function handleNewChat() {
+        if(isStartedChat) {
+            return;
+        }
+        setIsStartedChat(true);
+    }
 
     return (
         <div className={`${!menuOpen ? styles.menu_full : styles.hamburger}`}>
@@ -58,7 +68,15 @@ const Navbar = () => {
                     >
                         New Chat
                     </Typography>
-                    <Box src={pen_icon} component="img" height={24} width={24} mb={0} />
+                    <Box 
+                        src={pen_icon} 
+                        component="img" 
+                        height={24} 
+                        width={24} 
+                        mb={0} 
+                        sx={{cursor: "pointer"}}
+                        onClick={handleNewChat}
+                    />
                     {isMobile && (
                         <IconButton
                             onClick={() => setMenuOpen(false)}

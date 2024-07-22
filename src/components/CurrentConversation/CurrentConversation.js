@@ -1,78 +1,54 @@
-import { Box, Stack, Typography } from "@mui/material";
-import user_icon from "../../assets/user_icon_bot_ai.png";
-import AI_icon from "../../assets/logo_bot_ai.png";
+import { Stack } from "@mui/material";
+import ChatCard from "../ChatCard/ChatCard";
+import responseList from "../../sampleData.json";
 import { format } from "date-fns";
-import like_icon from "../../assets/like.png";
-import dislike_icon from "../../assets/dislike.png";
-import FeedBackModal from "../FeedbackModal/FeedbackModal";
-import { useState } from "react";
-
-/**
- * ChatCard component: for conversation
- * @param {boolean} isAI
- * is messege/chat by AI or user
- * 
- * @param {string} msg 
- * @returns 
- */
-const ChatCard = ({ isAI, msg }) => {
-    // for feedback modal
-    const [open, setOpen] = useState(false);
-
-    return (
-        <Stack
-            direction="row"
-            bgcolor="#D7C7F421"
-            boxShadow="-4px 4px 15px 0px #0000001A"
-            borderRadius={"20px"}
-            width="100%"
-            px={2.25}
-            py={2}
-            spacing={2}
-        >
-            <Box 
-                src={isAI ? AI_icon : user_icon}
-                component="img"
-                height="68px"
-                width="68px"
-                borderRadius="50%"
-            />
-            <Stack spacing={1}>
-                <Typography variant="h4">
-                    {isAI ? "Soul AI" : "You"}
-                </Typography>
-                <Typography variant="h4" fontWeight="400">
-                    {msg}
-                </Typography>
-                <Stack direction="row" spacing={2}>
-                    <Typography variant="h5">
-                       {format(new Date(), "MM/dd/yyyy 'at' h:mm a")}
-                    </Typography>
-                    <Box 
-                        src={like_icon} 
-                        component="img" 
-                        sx={{cursor: "pointer"}}
-                        // onClick={() => {}}
-                    />
-                    <Box 
-                        src={dislike_icon} 
-                        component="img" 
-                        sx={{cursor: "pointer"}}
-                        onClick={() => setOpen(true)}
-                    />
-                    <FeedBackModal open={open} setOpen={setOpen} />
-                </Stack>
-            </Stack>
-        </Stack>
-    );
-};
+import { useEffect } from "react";
 
 
 /**
  * CurrentConversation component: component contains list of conversation currently on going
+ * @param {Array<Object>} currentChatList
+ * @param {Function} setCurrentChatList
+ * @param {string} question
+ * current question asked
  * @returns 
  */
-export default function CurrentConversation() {
+export default function CurrentConversation({ currentChatList, setCurrentChatList, question }) {
+
+    //set user question data in one obj and then store response in one obj
+    const userObj = {
+        isAI: false,
+        msg: question,
+        time: `${format(new Date(), "MM/dd/yyyy 'at' h:mm a")}`
+    }
+    
+    // for finding response for the question
+    useEffect(() => {
+
+        const result = responseList.find((res) => res.question.toLowerCase().includes(question.toLowerCase()));
+        let msg = '';
+
+        if(!result) {
+            msg = "Sorry, Unable to give answer, Try using different question."
+        } else {
+            msg = result.response;
+        }
+        
+        const AIObj = {
+            isAI: true,
+            msg: msg,
+            time: `${format(new Date(), "MM/dd/yyyy 'at' h:mm a")}`
+        }
+
+        setCurrentChatList([
+            ...currentChatList,
+            userObj,
+            AIObj
+        ]);
+
+    }, [question]);
+
+    // console.log(currentChatList)
 
     return (
         <Stack 
@@ -84,7 +60,18 @@ export default function CurrentConversation() {
                 overflowY: "auto"
             }}
         >
-            <ChatCard msg="Hi!"/><ChatCard msg="Hi!"isAI /><ChatCard msg="Hi!"/><ChatCard msg="Hi!" isAI/><ChatCard msg="Hi!"/>
+            {
+                currentChatList.map((item, ind) => {
+                    return (
+                        <ChatCard 
+                            key={ind}  
+                            isAI={item.isAI}
+                            msg={item.msg}
+                            time={item.time}
+                        />
+                    );
+                })
+            }
         </Stack>
     );
 }
