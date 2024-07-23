@@ -12,7 +12,7 @@ import styles from "./ChatSection.module.css";
 import logo from "../../assets/logo_bot_ai.png";
 import CurrentConversation from "../CurrentConversation/CurrentConversation";
 import OldConversation from "../OldConversation/OldConversation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 /**
  * DefaultQuestion component: card showing default sample questions.
@@ -75,9 +75,32 @@ const DefaultQuestion = ({question, setIsStartedChat, setQuestion }) => {
 
 /**
  * ChatSection component:
+ * 
+ * @param {boolean} isStartedChat
+ * is new conversation going on
+ * 
+ * @param {Function} setIsStartedChat
+ * 
+ * @param {boolean} isShowOldChat
+ * to show old chat
+ * 
+ * @param {Array<Object>} oldChatLists
+ * array of all previous conversation
+ * 
+ * @param {Function} setOldChatLists
+ * 
+ * @param {Object} oldConversation
+ * object containing all data related to conversation(for showing it when user want's to see old conversation)
  * @returns 
  */
-const ChatSection = ({ isStartedChat, setIsStartedChat, isShowOldChat, oldChatLists, setOldChatLists }) => {
+const ChatSection = ({ 
+    isStartedChat, 
+    setIsStartedChat, 
+    isShowOldChat, 
+    oldChatLists, 
+    setOldChatLists,
+    oldConversation
+ }) => {
     const isMobile = useMediaQuery("(max-width: 900px)");
 
     // current conversation list
@@ -87,14 +110,37 @@ const ChatSection = ({ isStartedChat, setIsStartedChat, isShowOldChat, oldChatLi
     const [inputData, setInputData] = useState('');
     const [question, setQuestion] = useState('');
 
+    // for adding unique ID to every conversation
+    const conversationID = useRef(0);
+
     function handleAsk() {
         if(inputData === "") {
             return;
         }
+
         if(!isStartedChat) {
             setIsStartedChat(true);
         }
+
         setQuestion(inputData);
+
+        setInputData("");
+    }
+
+    function handleSave() {
+        conversationID.current += 1;
+        setOldChatLists([
+            ...oldChatLists,
+            {
+                id: conversationID.current,
+                title: "chat" + conversationID.current,
+                chatList: currentChatList
+            }
+        ]);
+
+        setCurrentChatList([]);
+
+        setIsStartedChat(false);
     }
 
     return (
@@ -111,7 +157,7 @@ const ChatSection = ({ isStartedChat, setIsStartedChat, isShowOldChat, oldChatLi
 
             {/* for showing default questions when chat is not started */}
             {
-                !isStartedChat &&
+                (!isStartedChat && !isShowOldChat) &&
                 <Container 
                     sx={{
                         display: "flex",
@@ -175,7 +221,7 @@ const ChatSection = ({ isStartedChat, setIsStartedChat, isShowOldChat, oldChatLi
 
             {/* for current ongoing chat */}
             {
-                isStartedChat &&
+                (isStartedChat && !isShowOldChat) &&
                 <CurrentConversation 
                     currentChatList={currentChatList}
                     setCurrentChatList={setCurrentChatList}
@@ -186,7 +232,9 @@ const ChatSection = ({ isStartedChat, setIsStartedChat, isShowOldChat, oldChatLi
             {/* for old conversation chat */}
             {
                 isShowOldChat &&
-                <OldConversation />
+                <OldConversation 
+                    conversation={oldConversation}
+                />
             }
 
             <Stack direction="row" mx={2} mt={4} mb={2} gap={2}>
@@ -195,10 +243,8 @@ const ChatSection = ({ isStartedChat, setIsStartedChat, isShowOldChat, oldChatLi
                     value={inputData}
                     onChange={(e) => setInputData(e.target.value)}
                 />
-                <Button onClick={handleAsk}>
-                    Ask
-                </Button>
-                <Button>Save</Button>
+                <Button onClick={handleAsk}>Ask</Button>
+                <Button onClick={handleSave}>Save</Button>
             </Stack>
 
             

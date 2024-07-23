@@ -39,16 +39,25 @@ export default function Home() {
     // list of all old conversations
     const [oldChatLists, setOldChatLists] = useState([]);
 
+    // for passing data to show old conversation
+    const [oldConversation, setOldConversation] = useState({});
+
     useEffect(() => {
         const oldList = localStorage.getItem("oldChatList");
 
         if(!oldList) {
             localStorage.setItem("oldChatList", JSON.stringify([]));
+        } else {
+            setOldChatLists(JSON.parse(oldList));
         }
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("oldChatList", JSON.stringify(oldChatLists));
+        
+        if(oldChatLists.length !== 0) {
+            localStorage.setItem("oldChatList", JSON.stringify(oldChatLists));
+        }
+        
     }, [oldChatLists]);
 
     return (
@@ -56,6 +65,10 @@ export default function Home() {
             <Navbar 
                 isStartedChat={isStartedChat}
                 setIsStartedChat={setIsStartedChat}
+                oldChatLists={oldChatLists}
+                isShowOldChat={isShowOldChat}
+                setIsShowOldChat={setIsShowOldChat}
+                setOldConversation={setOldConversation}
             />
             <ChatSection 
                 isStartedChat={isStartedChat}
@@ -63,6 +76,7 @@ export default function Home() {
                 isShowOldChat={isShowOldChat}
                 oldChatLists={oldChatLists}
                 setOldChatLists={setOldChatLists}
+                oldConversation={oldConversation}
             />
         </div>
     );

@@ -5,9 +5,12 @@ import ChatCard from "../ChatCard/ChatCard";
 
 /**
  * CurrentConversation component: component contains list of conversation currently on going
+ * 
+ * @param {Object} conversation
+ * object contains all conversation related data(chatList, feedback, rating, id, title)
  * @returns 
  */
-export default function OldConversation() {
+export default function OldConversation({conversation}) {
 
     return (
         <Stack 
@@ -19,7 +22,21 @@ export default function OldConversation() {
                 overflowY: "auto"
             }}
         >
-            <ChatCard msg="Hi!"/><ChatCard msg="Hi!"isAI /><ChatCard msg="Hi!"/><ChatCard msg="Hi!" isAI/><ChatCard msg="Hi!"/>
+            {
+                conversation.chatList.map((item,ind) => {
+                    return (
+                        <ChatCard 
+                            key={ind}
+                            isAI={item.isAI}
+                            msg={item.msg}
+                            time={item.time}
+                            feedback={item.feedback}
+                            rating={item.rating}
+                        />
+                    );
+                })
+            }
+            
         </Stack>
     );
 }

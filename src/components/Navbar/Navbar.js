@@ -10,11 +10,33 @@ import { useState } from "react";
 /**
  * Navbar component: New chat and past conversations
  * 
+ * @param {boolean} isStartedChat 
+ * is new conversation started
+ * 
  * @param {Function} setIsStartedChat
  * function to set state value for new chat is started (used here from pen_icon button)
+ * 
+ * @param {Array<Object>} oldChatLists
+ * list of all old conversation
+ * 
+ * @param {boolean} isShowOldChat
+ * to show old chat
+ * 
+ * @param {boolean} setIsShowOldChat
+ * for showing old chats in chat section
+ * 
+ * @param {Function} setOldConversation
+ * for seeting old conversation data when user click on any of the old conversation to see it
  * @returns 
  */
-const Navbar = ({ isStartedChat, setIsStartedChat }) => {
+const Navbar = ({ 
+    isStartedChat, 
+    setIsStartedChat, 
+    oldChatLists, 
+    isShowOldChat,
+    setIsShowOldChat, 
+    setOldConversation     
+}) => {
     const isMobile = useMediaQuery("(max-width: 900px)");
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -22,7 +44,15 @@ const Navbar = ({ isStartedChat, setIsStartedChat }) => {
         if(isStartedChat) {
             return;
         }
+        if(isShowOldChat) {
+            setIsShowOldChat(false);
+        }
         setIsStartedChat(true);
+    }
+
+    function handleOpenOldConversation(conversation) {
+        setOldConversation(conversation);
+        setIsShowOldChat(true);
     }
 
     return (
@@ -95,7 +125,7 @@ const Navbar = ({ isStartedChat, setIsStartedChat }) => {
                         </IconButton>
                     )}
                 </Stack>
-                <Stack mx={2} my={1.5}>
+                <Stack mx={2} my={1.5} spacing={2} overFlowY={"auto"}>
                     <Box 
                         bgcolor="primary.main"
                         color="#414146"
@@ -108,7 +138,27 @@ const Navbar = ({ isStartedChat, setIsStartedChat }) => {
                         Past Conversations
                     </Box>
 
-                    {/* add list of past transactions here */}
+                    {/* list of past conversations */}
+                    {
+                        oldChatLists.map((conversation) => {
+                            return (
+                                <Box 
+                                    key={conversation.id}
+                                    bgcolor="primary.main"
+                                    color="#414146"
+                                    borderRadius={"10px"}
+                                    px={1.5}
+                                    py={1}
+                                    fontSize={16}
+                                    fontWeight={700}
+                                    onClick={() => handleOpenOldConversation(conversation)}
+                                >
+                                    {conversation.title}
+                                </Box>
+                            );
+                        })
+                    }
+
                 </Stack>
             </div>
         </div>

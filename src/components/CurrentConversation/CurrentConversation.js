@@ -37,7 +37,9 @@ export default function CurrentConversation({ currentChatList, setCurrentChatLis
         const AIObj = {
             isAI: true,
             msg: msg,
-            time: `${format(new Date(), "MM/dd/yyyy 'at' h:mm a")}`
+            time: `${format(new Date(), "MM/dd/yyyy 'at' h:mm a")}`,
+            feedback: '',
+            rating: 0
         }
 
         setCurrentChatList([
