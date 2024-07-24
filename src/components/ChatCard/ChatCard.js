@@ -30,6 +30,7 @@ const ChatCard = ({ isAI, msg, time, isOldChat=false }) => {
     // to open ratings
     const [isLike, setIsLike] = useState(false);
 
+    
     return (
         <Stack
             direction="row"
@@ -41,6 +42,12 @@ const ChatCard = ({ isAI, msg, time, isOldChat=false }) => {
             py={2}
             spacing={2}
             className={`${isOldChat ? styles.old_conversation : ""}`}
+            sx={{
+                '&:hover .feedback-btns': {
+                    visibility: 'visible',
+                    opacity: 1
+                }
+            }}
         >
             <Box 
                 src={isAI ? AI_icon : user_icon}
@@ -63,8 +70,14 @@ const ChatCard = ({ isAI, msg, time, isOldChat=false }) => {
 
                     {/* if AI then show like and dislike buttons */}
                     {
-                        isAI &&
-                        <>
+                        (isAI) &&
+                        <Stack 
+                            direction="row" 
+                            spacing={2} 
+                            visibility='hidden'
+                            sx={{ opacity: { xs: 1, md: 0 }, transition: 'opacity 400ms ease' }}
+                            className='feedback-btns'
+                        >
                             <Box 
                                 src={like_icon} 
                                 component="img" 
@@ -88,7 +101,7 @@ const ChatCard = ({ isAI, msg, time, isOldChat=false }) => {
                                 onClick={() => setOpen(true)}
                             />
                             <FeedBackModal open={open} setOpen={setOpen} />
-                        </>
+                        </Stack>
                     }
 
                     {/* for old chat & AI*/}
