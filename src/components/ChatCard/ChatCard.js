@@ -18,7 +18,8 @@ import styles from "./ChatCard.module.css";
  * @param {boolean} isOldChat
  * is current chat or old chat, use for conditional rendering
  * 
- * @param {Array<Object>} 
+ * @param {string} feedback
+ * @param {Number} rating
  * @returns 
  */
 const ChatCard = ({ isAI, msg, time, isOldChat=false }) => {
@@ -114,7 +115,7 @@ const ChatCard = ({ isAI, msg, time, isOldChat=false }) => {
                 {
                     (isOldChat && isAI) &&
                     <Typography variant="h4">
-                        Feedback: <span style={{fontWeight: "400"}}>{"feedback value"}</span>
+                        Feedback: <span style={{fontWeight: "400"}}>{'feedback'}</span>
                     </Typography>
                 }
             </Stack>
